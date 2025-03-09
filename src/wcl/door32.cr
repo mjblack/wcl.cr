@@ -10,40 +10,35 @@ module WCL
     end
 
     def doorInitialize : Bool
-      bRet = C.wcDoorInitialize
-      bRet == 0 ? false : true
+      cbool(C.wcDoorInitialize)
     end
 
     def doorShutdown : Bool
-      bRet = C.wcDoorShutdown
-      bRet == 0 ? false : true
+      cbool(C.wcDoorShutdown)
     end
 
     def doorWrite(str : String) : Bool
       data = str.to_unsafe
       size = str.size.to_u32
-      bRet = C.wcDoorWrite(data, size)
-      bRet == 0 ? false : true
+      cbool(C.wcDoorWrite(data, size))
     end
 
     def doorWrite(chars : Array(Chars)) : Bool
       data = chars.to_unsafe
       size = chars.size.to_u32
-      bRet = C.wcDoorWrite(data, size)
-      bRet == 0 ? false : true
+      cbool(C.wcDoorWrite(data, size))
     end
 
     def doorWrite(char : Char) : Bool
       data = char.to_unsafe
       size = 1_u32
-      bRet = C.wcDoorWrite(data, size)
-      bRet == 0 ? false : true
+      cbool(C.wcDoorWrite(data, size))
     end
 
     def doorRead(size : Int) : String
       data = Pointer(Void).malloc(size)
       num = C.wcDoorRead(data, size.to_u32)
-      str = String.new(data, num)
+      str = String.new(data.as(Pointer(UInt8)), num)
       str
     end
 
@@ -67,11 +62,10 @@ module WCL
     end
 
     def doorHangup : Bool
-      bRet = C.wcDoorHangup
-      bRet == 0 ? false : true
+      cbool(C.wcDoorHangup)
     end
 
-    def doorEvent(timeout : Int) : Int32
+    def doorEvent(timeout : Int) : UInt32
       C.wcDoorEvent(timeout)
     end
 
