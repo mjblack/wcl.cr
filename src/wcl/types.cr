@@ -71,6 +71,8 @@ module WCL
   SIZE_SYSTEMPAGE_TEXT           = 80
   SIZE_VOLUME_NAME               = 16
 
+  
+
   @[Extern]
   record WHANDLE, unused : Int32
 
@@ -1011,4 +1013,14 @@ module WCL
     region_code : LibC::Char[16],
     region_name : LibC::Char[52] do
   end
+
+  record ChannelMessage,
+    channel : LibC::DWORD,
+    sender_id : LibC::DWORD,
+    user_data : LibC::WORD,
+    data_size : LibC::WORD,
+    data : LibC::BYTE[MAX_CHANNEL_MESSAGE_SIZE] do
+  end
+
+  alias WildcatCallback = Proc(LibC::DWORD, ChannelMessage, LibC::DWORD)*
 end
