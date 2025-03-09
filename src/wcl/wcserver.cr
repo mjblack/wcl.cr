@@ -114,8 +114,8 @@ module WCL
       C.GetWildcatServerContextHandle
     end
 
-    def setup_wildcat_callback : Bool
-      cbool(C.SetupWildcatCallback)
+    def setup_wildcat_callback(cbproc : WildcatCallback, userdata : LibC::DWORD) : Bool
+      cbool(C.SetupWildcatCallback(cbproc, userdata))
     end
 
     def grant_thread_access(tid : LibC::DWORD) : Bool
@@ -769,7 +769,7 @@ module WCL
       fun WildcatServerCreateContextFromHandle(context : LibC::DWORD) : LibC::BOOL
       fun WildcatServerCreateContextFromChallenge(challenge : LibC::Char*) : LibC::BOOL
       fun GetWildcatServerContextHandle : LibC::DWORD
-      fun SetupWildcatCallback : LibC::BOOL
+      fun SetupWildcatCallback(cbproc : WCL::WildcatCallback, userdata : LibC::DWORD) : LibC::BOOL
       fun GrantThreadAccess(tid : LibC::DWORD) : LibC::BOOL
       fun GetWildcatThreadContext : LibC::DWORD
       fun SetWildcatThreadContext(context : LibC::DWORD) : LibC::BOOL
