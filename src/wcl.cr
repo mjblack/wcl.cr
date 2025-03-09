@@ -1,6 +1,7 @@
 
 
 require "./wcl/macros"
+require "./wcl/consts"
 require "./wcl/types"
 require "./wcl/wcserver"
 require "./wcl/door32.cr"
