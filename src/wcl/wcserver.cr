@@ -743,6 +743,32 @@ module WCL
       geoip_ptr.value
     end
 
+    def open_channel(name : String) : LibC::DWORD
+      C.OpenChannel(name.to_unsafe)
+    end
+    
+    def close_channel(handle : LibC::DWORD) : Bool
+      cbool(C.CloseChannel(handle))
+    end
+
+    def write_channel(handle : LibC::DWORD, destid : LibC::DWORD, userdata : LibC::DWORD, data : String) : Bool
+      cbool(C.WriteChannel(handle, destid, userdata, data.to_unsafe, data.size))
+    end
+
+    def get_service_by_name(name : String) : WildcatService
+      ptr = Pointer(WildcatService).malloc(sizeof(WildcatService))
+      C.GetServiceByName(name.to_unsafe, ptr)
+      ptr.value
+    end
+
+    def register_service(service : WildcatService) : Bool
+      cbool(C.RegisterService(pointerof(service)))
+    end
+
+    def set_server_state(server : String, state : LibC::DWORD) : Bool
+      cbool(C.SetServerState(server, state))
+    end
+
     @[Link("wcsrv2x64")]
     lib C
       fun GetMakewild(mw : WCL::MakeWild*) : LibC::BOOL
