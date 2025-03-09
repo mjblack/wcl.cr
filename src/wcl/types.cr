@@ -1014,6 +1014,7 @@ module WCL
     region_name : LibC::Char[52] do
   end
 
+  @[Extern]
   record ChannelMessage,
     channel : LibC::DWORD,
     sender_id : LibC::DWORD,
